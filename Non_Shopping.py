@@ -1,79 +1,68 @@
 import time
-# Start
-print('Welcome to NON-SHOPPİNG!')
+
+# Fruit Class
+class Fruit:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+# Fruit Dictionary for easy access.
+fruits_menu = {
+    'a': Fruit('Banana', 20),
+    'b': Fruit('Dragon Fruit', 25),
+    'c': Fruit('Peach', 15),
+    'd': Fruit('Orange', 20),
+    'e': Fruit('Strawberry', 30)
+}
 
 total = 0
 basket = []
 balance = 100
-fruits = {
-    'a': 'Banana',
-    'b': 'Dragon Fruit',
-    'c': 'Peach',
-    'd': 'Orange'
-}
-# Adding fruits to the shopping basket
 
-answer = 'yes'
+print('Welcome to NON-SHOPPING!')
 
-while answer == 'yes':
-    print('\nCurrent balance:', balance)
+while True:
+    print(f'\nCurrent balance: {balance}')
+    for key, fruits in fruits_menu.items(): # For not typing new fruits every time to the print.
+        print(f'{key}: {fruits.name} Price: {fruits.price}')
 
-    choice = input(
-        'Wicth fruit do you wanna add to your basket:\n'
-        'a: Banana Price:10\n'
-        'b: Dragon Fruit Price:25\n'
-        'c: Peach Price:15\n'
-        'd: Orange Price:20\n'
-    ).lower()
+    choice = input('Which fruit? (a/b/c/d/e): ')
 
-    if choice == 'a':
-        price = 10
-        basket.append('Banana')
+    while choice not in fruits_menu:
+        print('\nInvalid choice! Please answer with a/b/c/d/e.')
+        choice = input('Which fruit? (a/b/c/d/e): ').lower()
 
-    elif choice == 'b':
-        price = 25
-        basket.append('Dragon Fruit')
+    fruit = fruits_menu[choice]
 
-    elif choice == 'c':
-        price = 15
-        basket.append('Peach')
-
-    elif choice == 'd':
-        price = 20
-        basket.append('Orange')
-
+    if balance > fruit.price or balance == fruit.price:
+        basket.append(fruit.name)
+        balance -= fruit.price
+        total += fruit.price
+        print(f'Added {fruit.name} to basket.')
     else:
-        print('Please sellect an answer with a,b,c,d and dont use space bar.')
-        print('Closing the program...')
-        time.sleep(1)
-        print('3')
-        time.sleep(1)
-        print('2')
-        time.sleep(1)
-        print('1')
-        time.sleep(1)
-        print('0')
-        exit()
+        print('\nInsufficient balance!')
 
-    # End of the purchase + score calculating
-    total += price
-    balance -= price
+    print(f'Your Basket: {basket}')
+    print(f'Total spent: {total}')
 
-    print('Your Basket:', basket)
-    print('Total spent:', total)
-    print('New balance:', balance)
+    while True:
+        leave_choice = input('\nAdd another fruit? (y/n): ').lower()
+        if leave_choice == 'y':
+            break
+        elif leave_choice == 'n':
+            print('\n--- Final Result ---')
+            print(f'Basket: {basket} Score: {len(basket) * balance}')
+            time.sleep(1)
+            print('Shutting down...')
+            time.sleep(2)
+            exit()
+        else:
+            print('Invalid choice! Please answer with y/n.')
 
-    answer = input('Do you want to add another fruit? (yes/no) ').lower()
 
-print('\nShopping finished.')
-print('Final basket:', basket)
-print('Final balance:', balance)
 
-fruit_count = len(basket)
-score = fruit_count * balance
 
-print('Fruit count:', fruit_count)
-print('Score:', score)
+
 
 
 
